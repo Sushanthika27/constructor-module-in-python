@@ -1,0 +1,55 @@
+import sys
+import gc
+
+class Employee:
+    def __init__(self, emp_id, name, city):
+        self.emp_id = emp_id
+        self.name = name
+        self.address = self.Address(city)
+
+    class Address:
+        def __init__(self, city):
+            self.city = city
+
+    def display(self):
+        print(self.emp_id, self.name, "-", self.address.city)
+
+    class Address:
+        def __init__(self, city):
+            self.city = city
+employees = []
+
+n = int(input("Enter number of employees to hire: "))
+
+for i in range(n):
+    emp_id = int(input("Enter employee id: "))
+    name = input("Enter employee name: ")
+    city = input("Enter city: ")
+
+    e = Employee(emp_id, name, city)
+    employees.append(e)
+
+print("\n--- Employees List ---")
+for e in employees:
+    e.display()
+    print("Ref count:", sys.getrefcount(e)-1)
+
+m = int(input("\nEnter number of employees to resign: "))
+
+for i in range(m):
+    rid = int(input("Enter employee id to remove: "))
+
+    for e in employees:
+        if e.emp_id == rid:
+            employees.remove(e)
+            del e
+            gc.collect()
+            print("Employee removed")
+            break
+
+print("\n--- After Resignation ---")
+for e in employees:
+    e.display()
+
+gc.collect()
+print("Garbage collection completed")
