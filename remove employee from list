@@ -1,0 +1,57 @@
+import sys
+import gc
+class Company:
+    def __init__(self, cname):
+        self.cname = cname
+        self.employees = []
+    class Employee:
+        def __init__(self, emp_id, emp_name, company):
+            self.emp_id = emp_id
+            self.emp_name = emp_name
+            self.company = company
+
+        def display_details(self):
+            print(self.emp_id, self.emp_name, "-", self.company.cname)
+
+    def add_employee(self, emp_id, emp_name):
+        e = self.Employee(emp_id, emp_name, self)
+        self.employees.append(e)
+        print("Employee ref count:", sys.getrefcount(e)-1)
+
+    def remove_employee(self, emp_id):
+        for e in self.employees:
+            if e.emp_id == emp_id:
+                self.employees.remove(e)
+                del e
+                gc.collect()
+                print("Employee removed")
+                break
+
+    def display_all(self):
+        for e in self.employees:
+            e.display_details()
+cname = input("Enter company name: ")
+c = Company(cname)
+
+n = int(input("Enter number of employees: "))
+
+for i in range(n):
+    emp_id = int(input("Enter emp id: "))
+    emp_name = input("Enter emp name: ")
+    c.add_employee(emp_id, emp_name)
+
+print("\nEmployees after hiring:")
+c.display_all()
+
+m = int(input("\nEnter number of employees to remove: "))
+
+for i in range(m):
+    emp_id = int(input("Enter emp id to remove: "))
+    c.remove_employee(emp_id)
+
+print("\nEmployees after removal:")
+c.display_all()
+
+print("\nCompany ref count:", sys.getrefcount(c)-1)
+gc.collect()
+print("Garbage collection done")
