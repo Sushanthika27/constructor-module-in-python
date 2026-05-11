@@ -1,0 +1,44 @@
+class Supplier:
+    def __init__(self, name, location):
+        self.name = name
+        self.location = location
+
+
+class Product:
+    class Specification:
+        def __init__(self, category, brand, warranty):
+            self.category = category
+            self.brand = brand
+            self.warranty = warranty
+
+    def __init__(self, name, price, supplier, spec):
+        self.name = name
+        self.price = price
+        self.supplier = supplier
+        self.spec = spec
+
+    def display(self):
+        print("\nProduct Name:", self.name)
+        print("Price:", self.price)
+        print("Supplier:", self.supplier.name)
+        print("Location:", self.supplier.location)
+        print("Category:", self.spec.category)
+        print("Brand:", self.spec.brand)
+        print("Warranty:", self.spec.warranty)
+name = input("Enter product name: ")
+price = float(input("Enter price: "))
+
+s_name = input("Enter supplier name: ")
+s_location = input("Enter supplier location: ")
+supplier = Supplier(s_name, s_location)
+
+category = input("Enter category: ")
+brand = input("Enter brand: ")
+warranty = input("Enter warranty: ")
+
+spec = Product.Specification(category, brand, warranty)
+
+product = Product(name, price, supplier, spec)
+
+print("\n------ PRODUCT DETAILS ------")
+product.display()
