@@ -1,0 +1,37 @@
+import sys
+
+class Student:
+    def __init__(self, name):
+        self.name = name
+        self.courses = []
+
+    class Course:
+        def __init__(self, cname, student):
+            self.cname = cname
+            self.student = student
+
+        def display(self):
+            print(self.cname)
+
+    def add_course(self, cname):
+        c = self.Course(cname, self)
+        self.courses.append(c)
+        print("Course ref count:", sys.getrefcount(c)-1)
+
+    def display(self):
+        print("\nStudent:", self.name)
+        print("Courses:")
+        for c in self.courses:
+            c.display()
+
+
+sname = input("Enter student name: ")
+s = Student(sname)
+
+n = int(input("Enter number of courses to register: "))
+
+for i in range(n):
+    cname = input("Enter course name: ")
+    s.add_course(cname)
+
+s.display()
